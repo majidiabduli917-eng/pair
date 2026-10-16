@@ -1,0 +1,9 @@
+
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "https://princeminibot-ddad75018b3e.herokuapp.com/:path*"
+    }
+  ]
+}
