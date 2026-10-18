@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#030814">
+  <meta name="description" content="PRINCE MINI - Next Generation Technology">
+  <title>PRINCE MINI | Loading System</title>
+
+  <style>
+    :root {
+      --blue: #168cff;
+      --cyan: #43e5ff;
+      --bg: #030814;
+      --text: #eaf8ff;
+      --muted: #88a7c9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* FULL SCREEN BACKGROUND */
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%,
+          rgba(0, 105, 255, .16),
+          transparent 55%),
+        linear-gradient(145deg, #020611, #07152a, #020611);
+    }
+
+    .grid {
+      position: absolute;
+      inset: -50%;
+      background-image:
+        linear-gradient(rgba(37, 145, 255, .09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 145, 255, .09) 1px, transparent 1px);
+      background-size: 42px 42px;
+      transform: perspective(500px) rotateX(58deg);
+      transform-origin: center center;
+      -webkit-mask-image: linear-gradient(
+        to bottom, transparent, black 30%, black 75%, transparent
+      );
+      mask-image: linear-gradient(
+        to bottom, transparent, black 30%, black 75%, transparent
+      );
+      animation: gridMove 18s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from { background-position: 0 0; }
+      to { background-position: 0 42px; }
+    }
+
+    .ambient {
+      position: absolute;
+      width: min(75vw, 500px);
+      aspect-ratio: 1;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(0, 105, 255, .09);
+      filter: blur(65px);
+      pointer-events: none;
+    }
+
+    /* NO BOX */
+    .screen {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 560px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
+    }
+
+    .online {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #8bf7c8;
+    }
+
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #51e7a3;
+      box-shadow: 0 0 8px rgba(81, 231, 163, .45);
+    }
+
+    /* PM LOGO */
+    .logo-wrap {
+      position: relative;
+      width: 145px;
+      height: 145px;
+      margin: 0 auto 26px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(67, 229, 255, .5);
+      border-radius: 50%;
+      animation: rotate 14s linear infinite;
+    }
+
+    .orbit::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 17px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 9px rgba(67, 229, 255, .65);
+    }
+
+    .orbit-inner {
+      position: absolute;
+      inset: 10px;
+      border: 1px dashed rgba(22, 140, 255, .45);
+      border-radius: 50%;
+      animation: rotate 22s linear infinite reverse;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .logo {
+      width: 105px;
+      height: 105px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(67, 229, 255, .65);
+      border-radius: 25px;
+      background: linear-gradient(145deg, #102e56, #061329);
+      box-shadow: 0 0 22px rgba(22, 140, 255, .20);
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -3px;
+      color: white;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    h1 {
+      font-size: clamp(30px, 8vw, 43px);
+      font-weight: 900;
+      letter-spacing: 3px;
+      line-height: 1.2;
+      text-shadow: 0 0 15px rgba(22, 140, 255, .15);
+    }
+
+    h1 .accent {
+      color: var(--cyan);
+    }
+
+    .subtitle {
+      margin-top: 11px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .description {
+      margin: 25px 0;
+      color: #bdd1e8;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* LOADING BAR */
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+    }
+
+    #percent {
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(67, 229, 255, .22);
+      border-radius: 20px;
+      background: rgba(7, 19, 38, .9);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #0874ff, #43e5ff);
+      box-shadow: 0 0 10px rgba(67, 229, 255, .25);
+      transition: width .15s linear;
+    }
+
+    .status {
+      min-height: 18px;
+      margin-top: 16px;
+      color: #92b5d8;
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    .status::before {
+      content: "› ";
+      color: var(--cyan);
+    }
+
+    .footer {
+      margin-top: 32px;
+      color: #6f8eaf;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .footer strong {
+      color: var(--cyan);
+    }
+
+    .version {
+      margin-top: 10px;
+      color: #4f6b8c;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    @media (max-width: 380px) {
+      .screen { padding: 15px; }
+
+      .logo-wrap {
+        width: 125px;
+        height: 125px;
+        margin-bottom: 22px;
+      }
+
+      .logo {
+        width: 91px;
+        height: 91px;
+        font-size: 30px;
+      }
+
+      .description { margin: 20px 0; }
+      .footer { margin-top: 25px; }
+    }
+
+    @media (max-height: 650px) {
+      .screen {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .topline { margin-bottom: 12px; }
+
+      .logo-wrap {
+        width: 105px;
+        height: 105px;
+        margin-bottom: 15px;
+      }
+
+      .logo {
+        width: 77px;
+        height: 77px;
+        font-size: 27px;
+      }
+
+      .description { margin: 14px 0; }
+      .footer { margin-top: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .grid, .orbit, .orbit-inner {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background" aria-hidden="true">
+    <div class="grid"></div>
+    <div class="ambient"></div>
+  </div>
+
+  <main class="screen">
+    <section class="content">
+
+      <div class="topline">
+        <span>PM // SYSTEM</span>
+        <span class="online">
+          <span class="online-dot"></span>
+          INITIALIZING
+        </span>
+      </div>
+
+      <div class="logo-wrap">
+        <div class="orbit"></div>
+        <div class="orbit-inner"></div>
+        <div class="logo">P<span>M</span></div>
+      </div>
+
+      <h1>PRINCE <span class="accent">MINI</span></h1>
+      <p class="subtitle">Next Generation Technology</p>
+
+      <p class="description">
+        Preparing your experience.<br>
+        Please wait while the system initializes.
+      </p>
+
+      <div class="progress-info">
+        <span>SYSTEM LOADING</span>
+        <span id="percent">0%</span>
+      </div>
+
+      <div
+        class="progress-track"
+        id="progressbar"
+        role="progressbar"
+        aria-label="Loading progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <div class="progress-fill" id="progress"></div>
+      </div>
+
+      <p class="status" id="status" aria-live="polite">
+        Establishing secure connection...
+      </p>
+
+      <footer class="footer">
+        POWERED BY <strong>PRINCE MINI</strong>
+        <div class="version">PM SYSTEM • VERSION 2.0</div>
+      </footer>
+
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // LINK MPYA YA RAILWAY
+      const TARGET_URL =
+        "https://prince-production-ef98.up.railway.app";
+
+      // MUDA WA LOADING: SEKUNDE 6
+      const LOADING_TIME = 6000;
+
+      const progress = document.getElementById("progress");
+      const percent = document.getElementById("percent");
+      const status = document.getElementById("status");
+      const progressbar = document.getElementById("progressbar");
+
+      const messages = [
+        { at: 0, text: "Establishing secure connection..." },
+        { at: 20, text: "Initializing system modules..." },
+        { at: 45, text: "Preparing user interface..." },
+        { at: 70, text: "Almost ready..." },
+        { at: 90, text: "Launching PRINCE MINI..." }
+      ];
+
+      const start = performance.now();
+      let lastMessage = -1;
+
+      function animate(now) {
+        const ratio = Math.min(
+          (now - start) / LOADING_TIME,
+          1
+        );
+
+        const value = Math.floor(ratio * 100);
+
+        progress.style.width = value + "%";
+        percent.textContent = value + "%";
+        progressbar.setAttribute("aria-valuenow", value);
+
+        for (let i = messages.length - 1; i >= 0; i--) {
+          if (value >= messages[i].at) {
+            if (lastMessage !== i) {
+              status.textContent = messages[i].text;
+              lastMessage = i;
+            }
+            break;
+          }
+        }
+
+        if (ratio < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          status.textContent = "Opening PRINCE MINI...";
+          window.location.replace(TARGET_URL);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>
